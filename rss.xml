@@ -11,3 +11,5 @@
     </item>
   </channel>
 </rss>
+file_put_contents('rss.xml', $rss_content);
+echo "RSS feed updated successfully!";
