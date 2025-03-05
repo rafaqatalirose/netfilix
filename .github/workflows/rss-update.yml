@@ -1,28 +1,27 @@
-name: Auto RSS Update
+name: Auto Update RSS Feed
 
 on:
-  push:
-    branches:
-      - main
+  schedule:
+    - cron: '0 * * * *' # Har ghante chalega
+
+  workflow_dispatch: # Manual run ka option
 
 jobs:
-  update-rss:
+  update-feed:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
+    - name: Checkout Repository
+      uses: actions/checkout@v2
 
-      - name: Configure Git
-        run: |
-          git config --global user.name 'GitHub Action'
-          git config --global user.email 'actions@github.com'
+    - name: Fetch RSS Feed
+      run: |
+        curl -o feed.xml "https://your-rss-feed-url.com/rss"
 
-      - name: Push changes
-        run: |
-          git add .
-          git commit -m "Auto-update RSS feed [skip ci]" || echo "No changes to commit"
-          git push https://x-access-token:${{ secrets.GH_TOKEN }}@github.com/rafaqatalirose/netfilix.git
-          
-      
-
+    - name: Commit and Push Changes
+      run: |
+        git config --global user.name "github-actions"
+        git config --global user.email "github-actions@github.com"
+        git add feed.xml
+        git commit -m "Update RSS feed" || echo "No changes to commit"
+        git push
