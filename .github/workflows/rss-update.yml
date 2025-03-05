@@ -16,7 +16,7 @@ jobs:
 
     - name: Fetch RSS Feed
       run: |
-        curl -o feed.xml "https://your-rss-feed-url.com/rss"
+        curl -o feed.xml "https://www.youtube.com/feeds/videos.xml?channel_id=UCWOA1ZGywLbqmigxE4Qlvuw"
 
     - name: Commit and Push Changes
       run: |
