@@ -28,8 +28,4 @@ jobs:
         git add rss.xml
         git commit -m "Updated RSS feed"
         git push
-$output = "<rss><channel><title>My Custom RSS</title></channel></rss>";
 
-file_put_contents('rss.xml', $output);
-
-echo "RSS file updated!";
