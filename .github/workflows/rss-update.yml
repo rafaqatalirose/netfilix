@@ -1,31 +1,30 @@
-name: Automate RSS Update
+name: RSS Feed Auto Update
 
 on:
   schedule:
-    - cron: '0 */6 * * *'  # ہر 6 گھنٹے بعد چلانے کے لیے
-  workflow_dispatch:       # Manual run کے لیے button
+    - cron: '0 * * * *'  # ہر گھنٹے پر چلے گا
+  workflow_dispatch:    # Manual run کے لیے
 
 jobs:
-  build:
+  update-rss:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Repository کو clone کریں
+    - name: Checkout repository
       uses: actions/checkout@v2
 
-    - name: PHP Install کریں
+    - name: Setup PHP
       uses: shivammathur/setup-php@v2
       with:
         php-version: '8.1'
 
-    - name: RSS script چلائیں
+    - name: Run RSS Generator
       run: php index.php
 
-    - name: RSS result کو commit کریں
+    - name: Commit RSS feed updates
       run: |
         git config --global user.name 'GitHub Action'
         git config --global user.email 'action@github.com'
-        git add rss.xml
-        git commit -m "Updated RSS feed"
+        git add custom_rss_feed.xml
+        git commit -m "Auto-update RSS feed [skip ci]" || echo "No changes to commit"
         git push
-
